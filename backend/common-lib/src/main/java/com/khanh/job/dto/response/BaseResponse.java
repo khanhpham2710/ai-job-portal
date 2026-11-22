@@ -1,8 +1,10 @@
 package com.khanh.job.dto.response;
 
-public record BaseResponse<T>(boolean isSuccess, T result) {
+import org.jspecify.annotations.Nullable;
 
-  public static <T> BaseResponse<T> success(T result) {
+public record BaseResponse<T>(boolean isSuccess, @Nullable T result) {
+
+  public static <T> BaseResponse<T> success(@Nullable T result) {
     return new BaseResponse<>(true, result);
   }
 

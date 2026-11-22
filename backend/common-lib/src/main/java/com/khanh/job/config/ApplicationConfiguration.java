@@ -2,6 +2,7 @@ package com.khanh.job.config;
 
 import com.khanh.job.common.CommonAppProperties;
 import com.khanh.job.common.QueryModelResolver;
+import com.khanh.job.exception.GlobalExceptionHandler;
 import java.util.List;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -42,5 +43,11 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
             e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
 
     return http.build();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean(GlobalExceptionHandler.class)
+  GlobalExceptionHandler globalExceptionHandler() {
+    return new GlobalExceptionHandler();
   }
 }

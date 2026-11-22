@@ -1,0 +1,56 @@
+package com.khanh.job.domain;
+
+import com.khanh.job.utils.UUIDGenerator;
+import jakarta.persistence.*;
+import java.time.Instant;
+import java.util.UUID;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import org.jspecify.annotations.Nullable;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public abstract class BaseEntity {
+
+  @Id private UUID id;
+
+  @PrePersist
+  protected void prePersist() {
+    if (id == null) {
+      id = UUIDGenerator.generateUUID();
+    }
+  }
+
+  @CreatedDate
+  @JdbcTypeCode(SqlTypes.TIMESTAMP_UTC)
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private Instant createdAt;
+
+  @LastModifiedDate
+  @JdbcTypeCode(SqlTypes.TIMESTAMP_UTC)
+  @Column(name = "updated_at", nullable = false)
+  private Instant updatedAt;
+
+  @CreatedBy
+  @Column(name = "created_by", nullable = false, updatable = false)
+  private String createdBy;
+
+  @LastModifiedBy
+  @Column(name = "updated_by", nullable = false)
+  private @Nullable String updatedBy;
+
+  @Column(name = "deleted_at")
+  @JdbcTypeCode(SqlTypes.TIMESTAMP_UTC)
+  private @Nullable Instant deletedAt;
+}
