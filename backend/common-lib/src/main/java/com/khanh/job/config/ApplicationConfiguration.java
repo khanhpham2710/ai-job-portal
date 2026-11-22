@@ -3,6 +3,8 @@ package com.khanh.job.config;
 import com.khanh.job.common.CommonAppProperties;
 import com.khanh.job.common.QueryModelResolver;
 import com.khanh.job.exception.GlobalExceptionHandler;
+import com.khanh.job.security.JwtAuthenticationFilter;
+import com.khanh.job.security.JwtAuthenticator;
 import java.util.List;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -30,8 +33,15 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
   }
 
   @Bean
+  @ConditionalOnMissingBean(JwtAuthenticationFilter.class)
+  JwtAuthenticator jwtAuthenticator(CommonAppProperties props) {
+    return new JwtAuthenticator(props.getSecurity().getJwt());
+  }
+
+  @Bean
   @ConditionalOnMissingBean(SecurityFilterChain.class)
-  SecurityFilterChain securityFilterChain(HttpSecurity http, CommonAppProperties props)
+  SecurityFilterChain securityFilterChain(
+      HttpSecurity http, JwtAuthenticator jwtAuthenticator, CommonAppProperties props)
       throws Exception {
     String[] publicPaths = props.getSecurity().getJwt().getPublicPaths().toArray(String[]::new);
 
@@ -40,7 +50,10 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
         .authorizeHttpRequests(
             auth -> auth.requestMatchers(publicPaths).permitAll().anyRequest().authenticated())
         .exceptionHandling(
-            e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
+            e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+        .addFilterBefore(
+            new JwtAuthenticationFilter(jwtAuthenticator),
+            UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
