@@ -1,5 +1,6 @@
 package com.khanh.job.config;
 
+import com.khanh.job.common.CommonAppProperties;
 import com.khanh.job.common.QueryModelResolver;
 import java.util.List;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -22,14 +23,21 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
   }
 
   @Bean
+  @ConditionalOnMissingBean(CommonAppProperties.class)
+  CommonAppProperties commonAppProperties() {
+    return new CommonAppProperties();
+  }
+
+  @Bean
   @ConditionalOnMissingBean(SecurityFilterChain.class)
-  SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  SecurityFilterChain securityFilterChain(HttpSecurity http, CommonAppProperties props)
+      throws Exception {
+    String[] publicPaths = props.getSecurity().getJwt().getPublicPaths().toArray(String[]::new);
 
     http.csrf(AbstractHttpConfigurer::disable)
         .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(
-            auth ->
-                auth.requestMatchers("/api/v1/home/**").permitAll().anyRequest().authenticated())
+            auth -> auth.requestMatchers(publicPaths).permitAll().anyRequest().authenticated())
         .exceptionHandling(
             e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
 
