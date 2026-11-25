@@ -1,7 +1,7 @@
 package com.khanh.job.user_service.security;
 
 import com.khanh.job.user_service.entity.UserEntity;
-import com.khanh.job.user_service.repository.UserRepository;
+import com.khanh.job.user_service.service.UserQueryService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -17,13 +17,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-  private final UserRepository userRepository;
+  private final UserQueryService userQueryService;
 
   @Override
   public @NonNull UserDetails loadUserByUsername(@NonNull String username)
       throws UsernameNotFoundException {
 
-    Optional<UserEntity> user = userRepository.findByEmail(username);
+    Optional<UserEntity> user = userQueryService.findByEmail(username);
 
     if (user.isEmpty()) {
       throw new UsernameNotFoundException("user not found " + username);

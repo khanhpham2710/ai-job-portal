@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.5</version>
+        <version>4.1.0</version>
         <relativePath/>
     </parent>
 
@@ -35,9 +35,8 @@
         <lombok.version>1.18.44</lombok.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <liquibase.version>5.0.4</liquibase.version>
-        <validator.version>4.0.5</validator.version>
+        <validator.version>4.1.0</validator.version>
         <jspecify.version>1.0.1</jspecify.version>
-        <spring-data-jpa.version>4.0.4</spring-data-jpa.version>
 
         <!-- Liquibase diff: module con có thể ghi đè -->
         <entity.package>com.khanh.job</entity.package>
@@ -132,7 +131,7 @@
                     </configuration>
                 </plugin>
 
-                <!-- Liquibase: module con chỉ cần khai báo groupId + artifactId -->
+                <!-- Liquibase -->
                 <plugin>
                     <groupId>org.liquibase</groupId>
                     <artifactId>liquibase-maven-plugin</artifactId>
@@ -141,9 +140,13 @@
                         <propertyFile>src/main/resources/liquibase.properties</propertyFile>
                         <!--suppress UnresolvedMavenProperty -->
                         <password>${env.DB_PASSWORD}</password>
-                        <diffChangeLogFile>src/main/resources/db/changelog/changes/${maven.build.timestamp}_changelog.${changelog.ext}</diffChangeLogFile>
+                        <diffChangeLogFile>
+                            src/main/resources/db/changelog/changes/${maven.build.timestamp}_changelog.${changelog.ext}
+                        </diffChangeLogFile>
                         <changeLogFile>db/changelog/db.changelog-master.yaml</changeLogFile>
-                        <referenceUrl>hibernate:spring:${entity.package}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.implicit_naming_strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl&amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy</referenceUrl>
+                        <referenceUrl>
+                            hibernate:spring:${entity.package}?dialect=org.hibernate.dialect.PostgreSQLDialect&amp;hibernate.implicit_naming_strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl&amp;hibernate.physical_naming_strategy=org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+                        </referenceUrl>
                     </configuration>
                     <dependencies>
                         <dependency>
@@ -159,11 +162,6 @@
                         <dependency>
                             <groupId>org.hibernate.orm</groupId>
                             <artifactId>hibernate-core</artifactId>
-                            <version>${hibernate.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.hibernate.orm</groupId>
-                            <artifactId>hibernate-envers</artifactId>
                             <version>${hibernate.version}</version>
                         </dependency>
                         <dependency>
@@ -195,11 +193,6 @@
                             <groupId>org.springframework</groupId>
                             <artifactId>spring-tx</artifactId>
                             <version>${spring-framework.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.springframework.data</groupId>
-                            <artifactId>spring-data-jpa</artifactId>
-                            <version>${spring-data-jpa.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>jakarta.validation</groupId>
@@ -238,6 +231,11 @@
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.version}</version>
                         </path>
+                        <path>
+                            <groupId>org.hibernate.orm</groupId>
+                            <artifactId>hibernate-processor</artifactId>
+                            <version>${hibernate.version}</version>
+                        </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
@@ -252,7 +250,9 @@
                     <checking>main</checking>
                     <jspecifyMode>true</jspecifyMode>
                     <nullAwaySeverity>error</nullAwaySeverity>
-                    <excludedPaths>(.*/test/java/.*|.*/target/generated-sources/(?!nullability/).*)</excludedPaths>
+                    <excludedPaths>
+                        .*test/java/.*|.*target/generated-sources/(?!nullability/).*
+                    </excludedPaths>
                 </configuration>
                 <executions>
                     <execution>

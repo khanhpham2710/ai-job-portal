@@ -14,6 +14,7 @@ import com.khanh.job.user_service.repository.UserRepository;
 import com.khanh.job.user_service.security.CustomUserDetailsService;
 import com.khanh.job.user_service.service.AuthService;
 import com.khanh.job.user_service.service.JwtService;
+import com.khanh.job.user_service.service.UserQueryService;
 import com.khanh.job.utils.UUIDGenerator;
 import java.time.Instant;
 import java.util.Objects;
@@ -35,13 +36,14 @@ public class AuthServiceImpl implements AuthService {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final CustomUserDetailsService customUserDetailsService;
+  private final UserQueryService userQueryService;
 
   private final UserMapper userMapper;
 
   @Override
   public AuthResponse signup(SignupRequest req) throws Exception {
 
-    if (userRepository.existsByEmail(req.getEmail())) {
+    if (userQueryService.existsByEmail(req.getEmail())) {
       throw new Exception("Email Already registered : " + req.getEmail());
     }
 
@@ -77,14 +79,14 @@ public class AuthServiceImpl implements AuthService {
 
   @Override
   public LoginResponse login(LoginRequest req) throws Exception {
+    UserEntity user =
+        userQueryService
+            .findByEmail(req.getEmail())
+            .orElseThrow(() -> new NotFoundException(ErrorMessage.USER_NOT_FOUND));
+
     Authentication authentication = authenticate(req.getEmail(), req.getPassword());
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
-
-    UserEntity user =
-        userRepository
-            .findByEmail(req.getEmail())
-            .orElseThrow(() -> new NotFoundException(ErrorMessage.USER_NOT_FOUND));
 
     String accessToken = jwtService.generateAccessToken(user.getId(), user.toUserDetail());
     String refreshToken = jwtService.generateRefreshToken(user.getId());

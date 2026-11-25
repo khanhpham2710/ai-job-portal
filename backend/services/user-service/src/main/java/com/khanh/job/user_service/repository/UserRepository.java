@@ -1,12 +1,6 @@
 package com.khanh.job.user_service.repository;
 
 import com.khanh.job.user_service.entity.UserEntity;
-import java.util.Optional;
-import java.util.UUID;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.khanh.job.utils.BaseRepository;
 
-public interface UserRepository extends JpaRepository<UserEntity, UUID> {
-  Optional<UserEntity> findByEmail(String email);
-
-  boolean existsByEmail(String email);
-}
+public interface UserRepository extends BaseRepository<UserEntity> {}

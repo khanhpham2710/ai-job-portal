@@ -21,8 +21,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = UserEntity.TABLE)
 public class UserEntity extends BaseEntity {
+  public static final String TABLE = "users";
+
   @Column(nullable = false)
   private String fullName;
 

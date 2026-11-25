@@ -2,10 +2,10 @@ package com.khanh.job.domain;
 
 import com.khanh.job.utils.UUIDGenerator;
 import jakarta.persistence.*;
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -18,10 +18,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity {
+public abstract class BaseEntity implements Serializable {
 
   @Id private UUID id;
 
@@ -48,9 +47,8 @@ public abstract class BaseEntity {
 
   @LastModifiedBy
   @Column(name = "updated_by", nullable = false)
-  private @Nullable String updatedBy;
+  private String updatedBy;
 
   @Column(name = "deleted_at")
-  @JdbcTypeCode(SqlTypes.TIMESTAMP_UTC)
   private @Nullable Instant deletedAt;
 }
