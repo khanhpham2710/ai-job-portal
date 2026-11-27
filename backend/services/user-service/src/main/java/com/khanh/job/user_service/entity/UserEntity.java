@@ -5,8 +5,10 @@ import com.khanh.job.domain.enums.UserRole;
 import com.khanh.job.domain.enums.UserStatus;
 import jakarta.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -53,6 +55,10 @@ public class UserEntity extends BaseEntity {
 
   @JdbcTypeCode(SqlTypes.TIMESTAMP_UTC)
   private @Nullable Instant suspendedAt;
+
+  @OneToMany(mappedBy = "candidate")
+  @Builder.Default
+  private List<Resume> resumes = new ArrayList<>();
 
   public UserDetails toUserDetail() {
     GrantedAuthority authority = new SimpleGrantedAuthority(role.toString());

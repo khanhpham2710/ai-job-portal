@@ -24,6 +24,8 @@ public interface BaseRepository<T extends BaseEntity>
 
   List<T> findAllActive(Specification<T> spec);
 
+  List<T> findAllActive(Specification<T> spec, Sort sort);
+
   Page<T> findAllActive(Specification<T> spec, Pageable pageable);
 
   List<T> findAllActiveById(Iterable<UUID> ids);

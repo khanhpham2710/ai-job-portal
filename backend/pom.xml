@@ -250,9 +250,8 @@
                     <checking>main</checking>
                     <jspecifyMode>true</jspecifyMode>
                     <nullAwaySeverity>error</nullAwaySeverity>
-                    <excludedPaths>
-                        .*test/java/.*|.*target/generated-sources/(?!nullability/).*
-                    </excludedPaths>
+                    <excludedPaths>.*test/java/.*|.*target/generated-sources/annotations/.*|.*target/generated-sources/(?!nullability/).*</excludedPaths>
+
                 </configuration>
                 <executions>
                     <execution>

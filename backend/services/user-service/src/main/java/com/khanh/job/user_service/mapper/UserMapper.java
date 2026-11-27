@@ -8,5 +8,5 @@ import org.mapstruct.Mapper;
 
 @Mapper(config = GlobalMapperConfig.class)
 public interface UserMapper {
-  UserResponse toDTO(@NonNull UserEntity user);
+  UserResponse toResponse(@NonNull UserEntity user);
 }

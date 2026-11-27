@@ -1,0 +1,590 @@
+databaseChangeLog:
+- changeSet:
+    id: 1795785096511-1
+    author: MIS (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: educationsPK
+            name: id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: created_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: created_by
+            type: VARCHAR(255)
+        - column:
+            name: deleted_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_by
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: degree
+            type: VARCHAR(150)
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 0
+            name: display_order
+            type: INTEGER
+        - column:
+            name: field_of_study
+            type: VARCHAR(150)
+        - column:
+            name: grade
+            type: VARCHAR(50)
+        - column:
+            constraints:
+              nullable: false
+            name: institution_name
+            type: VARCHAR(200)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueBoolean: false
+            name: is_currently_studying
+            type: BOOLEAN
+        - column:
+            name: end_date
+            type: date
+        - column:
+            name: start_date
+            type: date
+        - column:
+            constraints:
+              nullable: false
+            name: resume_id
+            type: UUID
+        tableName: educations
+- changeSet:
+    id: 1795785096511-2
+    author: MIS (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: languagesPK
+            name: id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: created_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: created_by
+            type: VARCHAR(255)
+        - column:
+            name: deleted_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_by
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 0
+            name: display_order
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: language_name
+            type: VARCHAR(255)
+        - column:
+            name: proficiency
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: resume_id
+            type: UUID
+        tableName: languages
+- changeSet:
+    id: 1795785096511-3
+    author: MIS (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: project_id
+            type: UUID
+        - column:
+            name: technologies
+            type: VARCHAR(255)
+        tableName: project_technologies
+- changeSet:
+    id: 1795785096511-4
+    author: MIS (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: projectsPK
+            name: id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: created_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: created_by
+            type: VARCHAR(255)
+        - column:
+            name: deleted_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_by
+            type: VARCHAR(255)
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 0
+            name: display_order
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            defaultValueBoolean: false
+            name: is_ongoing
+            type: BOOLEAN
+        - column:
+            name: project_url
+            type: VARCHAR(255)
+        - column:
+            name: end_date
+            type: date
+        - column:
+            name: start_date
+            type: date
+        - column:
+            name: source_code_url
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: title
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: resume_id
+            type: UUID
+        tableName: projects
+- changeSet:
+    id: 1795785096511-5
+    author: MIS (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: resume_skillsPK
+            name: id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: created_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: created_by
+            type: VARCHAR(255)
+        - column:
+            name: deleted_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_by
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 0
+            name: display_order
+            type: INTEGER
+        - column:
+            name: proficiency_level
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: skill_name
+            type: VARCHAR(255)
+        - column:
+            name: years_of_experience
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            name: resume_id
+            type: UUID
+        tableName: resume_skills
+- changeSet:
+    id: 1795785096511-6
+    author: MIS (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: resumesPK
+            name: id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: created_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: created_by
+            type: VARCHAR(255)
+        - column:
+            name: deleted_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_by
+            type: VARCHAR(255)
+        - column:
+            name: completion_score
+            type: INTEGER
+        - column:
+            constraints:
+              nullable: false
+            defaultValueBoolean: false
+            name: is_default
+            type: BOOLEAN
+        - column:
+            name: city
+            type: VARCHAR(255)
+        - column:
+            name: country
+            type: VARCHAR(255)
+        - column:
+            name: email
+            type: VARCHAR(255)
+        - column:
+            name: first_name
+            type: VARCHAR(255)
+        - column:
+            name: github_url
+            type: VARCHAR(255)
+        - column:
+            name: headline
+            type: VARCHAR(255)
+        - column:
+            name: last_name
+            type: VARCHAR(255)
+        - column:
+            name: linkedin_url
+            type: VARCHAR(255)
+        - column:
+            name: phone
+            type: VARCHAR(255)
+        - column:
+            name: portfolio_url
+            type: VARCHAR(255)
+        - column:
+            name: profile_image
+            type: VARCHAR(255)
+        - column:
+            name: website_url
+            type: VARCHAR(255)
+        - column:
+            name: summary
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: template
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: title
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: visibility
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: candidate_id
+            type: UUID
+        tableName: resumes
+- changeSet:
+    id: 1795785096511-7
+    author: MIS (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: work_experience_id
+            type: UUID
+        - column:
+            name: technologies
+            type: VARCHAR(255)
+        tableName: work_experience_technologies
+- changeSet:
+    id: 1795785096511-8
+    author: MIS (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: work_experiencesPK
+            name: id
+            type: UUID
+        - column:
+            constraints:
+              nullable: false
+            name: created_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: created_by
+            type: VARCHAR(255)
+        - column:
+            name: deleted_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_at
+            type: TIMESTAMP(6) WITH TIME ZONE
+        - column:
+            constraints:
+              nullable: false
+            name: updated_by
+            type: VARCHAR(255)
+        - column:
+            name: company_logo_url
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: company_name
+            type: VARCHAR(255)
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueNumeric: 0
+            name: display_order
+            type: INTEGER
+        - column:
+            name: employment_type
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: is_current_job
+            type: BOOLEAN
+        - column:
+            constraints:
+              nullable: false
+            name: job_title
+            type: VARCHAR(255)
+        - column:
+            name: location
+            type: VARCHAR(255)
+        - column:
+            name: end_date
+            type: date
+        - column:
+            name: start_date
+            type: date
+        - column:
+            constraints:
+              nullable: false
+            name: resume_id
+            type: UUID
+        tableName: work_experiences
+- changeSet:
+    id: 1795785096511-10
+    author: MIS (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: work_experience_id
+        baseTableName: work_experience_technologies
+        constraintName: FK1sedak62cpleoey3gi1ys7s0t
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: work_experiences
+        validate: true
+- changeSet:
+    id: 1795785096511-11
+    author: MIS (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: resume_id
+        baseTableName: projects
+        constraintName: FK5jas27wybjpt7np4kjkf0ftxy
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: resumes
+        validate: true
+- changeSet:
+    id: 1795785096511-12
+    author: MIS (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: candidate_id
+        baseTableName: resumes
+        constraintName: FKfjpchax70c20a43xvqa7av6b8
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+- changeSet:
+    id: 1795785096511-13
+    author: MIS (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: resume_id
+        baseTableName: languages
+        constraintName: FKgww7w2h4ius3ypgibqm5bo5ap
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: resumes
+        validate: true
+- changeSet:
+    id: 1795785096511-14
+    author: MIS (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: resume_id
+        baseTableName: resume_skills
+        constraintName: FKhft4j9chhnrp5c6csm2v28dcd
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: resumes
+        validate: true
+- changeSet:
+    id: 1795785096511-15
+    author: MIS (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: resume_id
+        baseTableName: work_experiences
+        constraintName: FKlan3wij52dk67mbv21koxmqnw
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: resumes
+        validate: true
+- changeSet:
+    id: 1795785096511-16
+    author: MIS (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: project_id
+        baseTableName: project_technologies
+        constraintName: FKm4n7vw6u2ilmq85adm4igx3m1
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: projects
+        validate: true
+- changeSet:
+    id: 1795785096511-17
+    author: MIS (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: resume_id
+        baseTableName: educations
+        constraintName: FKo2o6l2a14fq9hkoo9io2st374
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: resumes
+        validate: true
+

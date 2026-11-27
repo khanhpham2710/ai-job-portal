@@ -54,6 +54,11 @@ public class BaseRepositoryImpl<T extends BaseEntity> extends SimpleJpaRepositor
   }
 
   @Override
+  public List<T> findAllActive(Specification<T> spec, Sort sort) {
+    return findAll(spec.and(BaseSpecification.active()), sort);
+  }
+
+  @Override
   public Page<T> findAllActive(Specification<T> spec, Pageable pageable) {
     return findAll(spec.and(BaseSpecification.active()), pageable);
   }

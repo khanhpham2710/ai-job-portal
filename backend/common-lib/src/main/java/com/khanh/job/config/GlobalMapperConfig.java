@@ -7,7 +7,8 @@ import org.mapstruct.ReportingPolicy;
 
 @MapperConfig(
     componentModel = "spring",
-    nullValueMappingStrategy = NullValueMappingStrategy.RETURN_DEFAULT,
+    uses = {GlobalDateTimeMapper.class},
+    nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL,
     nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL,
     unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface GlobalMapperConfig {}

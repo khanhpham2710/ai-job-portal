@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
 
     UserEntity savedUser = userRepository.save(user);
 
-    return AuthResponse.builder().user(userMapper.toDTO(savedUser)).build();
+    return AuthResponse.builder().user(userMapper.toResponse(savedUser)).build();
   }
 
   @Override
@@ -98,7 +98,7 @@ public class AuthServiceImpl implements AuthService {
     return LoginResponse.builder()
         .accessToken(accessToken)
         .refreshToken(refreshToken)
-        .user(userMapper.toDTO(user))
+        .user(userMapper.toResponse(user))
         .build();
   }
 

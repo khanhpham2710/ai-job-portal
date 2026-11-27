@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.khanh.job")
 @Import({ApplicationConfiguration.class, AuditingConfiguration.class})
 @EnableJpaRepositories(repositoryBaseClass = BaseRepositoryImpl.class)
 public class UserServiceApplication {
