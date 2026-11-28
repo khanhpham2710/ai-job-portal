@@ -1,4 +1,4 @@
-package com.khanh.job.config;
+package com.khanh.job.mapper;
 
 import java.time.Instant;
 import java.time.LocalDate;

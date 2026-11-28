@@ -10,10 +10,8 @@ import org.hibernate.annotations.ColumnDefault;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class DisplayOrder {
   @Column(nullable = false)
   @ColumnDefault("0")
-  @Builder.Default
   private Integer displayOrder = 0;
 }

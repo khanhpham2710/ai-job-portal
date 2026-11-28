@@ -26,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -41,10 +42,11 @@ public class AuthServiceImpl implements AuthService {
   private final UserMapper userMapper;
 
   @Override
+  @Transactional
   public AuthResponse signup(SignupRequest req) throws Exception {
 
     if (userQueryService.existsByEmail(req.getEmail())) {
-      throw new Exception("Email Already registered : " + req.getEmail());
+      throw new Exception(ErrorMessage.USER_ALREADY_EXISTS);
     }
 
     if (req.getRole() == UserRole.ROLE_ADMIN) {
@@ -72,12 +74,13 @@ public class AuthServiceImpl implements AuthService {
 
     user.setId(userId);
 
-    UserEntity savedUser = userRepository.save(user);
+    UserEntity savedUser = userRepository.add(user);
 
     return AuthResponse.builder().user(userMapper.toResponse(savedUser)).build();
   }
 
   @Override
+  @Transactional
   public LoginResponse login(LoginRequest req) throws Exception {
     UserEntity user =
         userQueryService
@@ -93,7 +96,7 @@ public class AuthServiceImpl implements AuthService {
 
     user.setLastLogin(Instant.now());
     setUserIdToRequestContext(user.getId());
-    userRepository.save(user);
+    userRepository.update(user);
 
     return LoginResponse.builder()
         .accessToken(accessToken)

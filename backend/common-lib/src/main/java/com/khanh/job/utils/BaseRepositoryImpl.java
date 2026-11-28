@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.*;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -145,6 +146,20 @@ public class BaseRepositoryImpl<T extends BaseEntity> extends SimpleJpaRepositor
     if (changeDeletedAt(List.of(id), Instant.now(), BaseSpecification.active()) == 0) {
       throw notFound("active entity", id);
     }
+  }
+
+  @Override
+  @Transactional
+  public int softDeleteAll(Iterable<T> entities) {
+    Set<UUID> idSet = new LinkedHashSet<>();
+
+    entities.forEach(
+        entity -> {
+          UUID id = requireId(entity);
+          idSet.add(id);
+        });
+
+    return idSet.isEmpty() ? 0 : softDeleteIfActive(idSet);
   }
 
   @Override
@@ -324,7 +339,7 @@ public class BaseRepositoryImpl<T extends BaseEntity> extends SimpleJpaRepositor
 
   // ---------- Helpers ----------
 
-  private UUID requireId(T entity) {
+  private @NonNull UUID requireId(T entity) {
     return Objects.requireNonNull(entity.getId(), "entity id");
   }
 
@@ -349,5 +364,61 @@ public class BaseRepositoryImpl<T extends BaseEntity> extends SimpleJpaRepositor
     List<E> list = new ArrayList<>();
     items.forEach(list::add);
     return list;
+  }
+
+  // ---------- Thêm / cập nhật ----------
+  @Override
+  @Transactional
+  public T add(T entity) {
+    Assert.notNull(entity, "The entity must not be null!");
+
+    em.persist(entity);
+    em.flush();
+
+    return entity;
+  }
+
+  @Override
+  @Transactional
+  public List<T> addAll(Iterable<T> entities) {
+    List<T> list = toList(entities);
+    Set<UUID> seen = new HashSet<>();
+
+    for (T entity : list) {
+      Assert.notNull(entity, "The entity must not be null!");
+
+      if (entity.getId() != null && !seen.add(entity.getId())) {
+        throw duplicate(entity.getId());
+      }
+
+      em.persist(entity);
+    }
+
+    em.flush();
+
+    return list;
+  }
+
+  @Override
+  @Transactional
+  public T update(T entity) {
+    Assert.notNull(entity, "The entity must not be null!");
+    requireId(entity);
+
+    return em.contains(entity) ? entity : em.merge(entity);
+  }
+
+  @Override
+  @Transactional
+  public List<T> updateAll(Iterable<T> entities) {
+    List<T> result = new ArrayList<>();
+    entities.forEach(entity -> result.add(update(entity)));
+    return result;
+  }
+
+  private DuplicateKeyException duplicate(UUID id) {
+    return new DuplicateKeyException(
+        "%s with id %s already exists!"
+            .formatted(entityInformation.getJavaType().getSimpleName(), id));
   }
 }

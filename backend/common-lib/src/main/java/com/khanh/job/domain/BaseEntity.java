@@ -51,4 +51,12 @@ public abstract class BaseEntity implements Serializable {
 
   @Column(name = "deleted_at")
   private @Nullable Instant deletedAt;
+
+  public void setDeleted(boolean deleted) {
+    if (deleted) {
+      this.deletedAt = Instant.now();
+    } else {
+      this.deletedAt = null;
+    }
+  }
 }

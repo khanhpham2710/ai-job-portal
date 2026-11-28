@@ -9,13 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.Repository;
 
 @NoRepositoryBean
 public interface BaseRepository<T extends BaseEntity>
-    extends JpaRepository<T, UUID>, JpaSpecificationExecutor<T> {
+    extends Repository<T, UUID>, JpaSpecificationExecutor<T> {
   List<T> findAllActive();
 
   List<T> findAllActive(Sort sort);
@@ -52,6 +52,8 @@ public interface BaseRepository<T extends BaseEntity>
 
   void softDelete(T entity);
 
+  int softDeleteAll(Iterable<T> entities);
+
   int softDeleteAllById(Iterable<UUID> ids);
 
   void scheduleSoftDeleteById(UUID id, Instant at);
@@ -64,4 +66,12 @@ public interface BaseRepository<T extends BaseEntity>
 
   /** Trả về số bản ghi thực sự được khôi phục. Cũng huỷ luôn lịch xóa hẹn giờ. */
   int restoreAllById(Iterable<UUID> ids);
+
+  T add(T entity);
+
+  List<T> addAll(Iterable<T> entities);
+
+  T update(T entity);
+
+  List<T> updateAll(Iterable<T> entities);
 }

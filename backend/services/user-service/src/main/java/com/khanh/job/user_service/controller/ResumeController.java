@@ -4,7 +4,7 @@ import com.khanh.job.common.BaseController;
 import com.khanh.job.dto.response.BaseResponse;
 import com.khanh.job.dto.response.user.BaseResumeResponse;
 import com.khanh.job.dto.response.user.ResumeResponse;
-import com.khanh.job.user_service.dto.request.CreateResumeRequest;
+import com.khanh.job.user_service.dto.request.CRUDResumeRequest;
 import com.khanh.job.user_service.dto.request.PersonalInfoRequest;
 import com.khanh.job.user_service.service.ResumeService;
 import jakarta.validation.Valid;
@@ -23,8 +23,14 @@ public class ResumeController extends BaseController {
 
   @PostMapping
   public ResponseEntity<BaseResponse<BaseResumeResponse>> createResume(
-      @RequestBody @Valid CreateResumeRequest req) {
+      @RequestBody @Valid CRUDResumeRequest req) {
     return ResponseEntity.ok(createSuccessResponse(resumeService.createResume(req)));
+  }
+
+  @PutMapping("/{resumeId}")
+  public ResponseEntity<BaseResponse<BaseResumeResponse>> updateResume(
+      @PathVariable UUID resumeId, @RequestBody @Valid CRUDResumeRequest req) throws Exception {
+    return ResponseEntity.ok(createSuccessResponse(resumeService.updateResume(resumeId, req)));
   }
 
   @GetMapping("/{resumeId}")

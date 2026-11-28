@@ -2,7 +2,7 @@ package com.khanh.job.user_service.mapper;
 
 import com.khanh.job.config.GlobalMapperConfig;
 import com.khanh.job.dto.response.user.*;
-import com.khanh.job.user_service.dto.request.PersonalInfoRequest;
+import com.khanh.job.user_service.dto.request.*;
 import com.khanh.job.user_service.entity.*;
 import java.util.List;
 import org.jspecify.annotations.NonNull;
@@ -42,18 +42,57 @@ public interface ResumeMapper {
 
   @Mapping(target = "startDate", source = "rangeInfo.startDate")
   @Mapping(target = "endDate", source = "rangeInfo.endDate")
-  @Mapping(target = "displayOrder", source = "displayOrder.displayOrder")
   EducationResponse toEducationResponse(Education edu);
 
   @Mapping(target = "startDate", source = "rangeInfo.startDate")
   @Mapping(target = "endDate", source = "rangeInfo.endDate")
-  @Mapping(target = "displayOrder", source = "displayOrder.displayOrder")
   ProjectResponse toProjectResponse(Project project);
 
   LanguageResponse toLanguageResponse(Language lang);
 
   @Mapping(target = "startDate", source = "rangeInfo.startDate")
   @Mapping(target = "endDate", source = "rangeInfo.endDate")
-  @Mapping(target = "displayOrder", source = "displayOrder.displayOrder")
   WorkExperienceResponse toWorkExperienceResponse(WorkExperience exp);
+
+  @Mapping(target = "rangeInfo.startDate", source = "startDate")
+  @Mapping(target = "rangeInfo.endDate", source = "endDate")
+  Education toEducation(EducationRequest request);
+
+  ResumeSkill toSkill(ResumeSkillRequest requests);
+
+  @Mapping(target = "rangeInfo.startDate", source = "startDate")
+  @Mapping(target = "rangeInfo.endDate", source = "endDate")
+  Project toProject(ProjectRequest request);
+
+  Language toLanguage(LanguageRequest request);
+
+  @Mapping(target = "rangeInfo.startDate", source = "startDate")
+  @Mapping(target = "rangeInfo.endDate", source = "endDate")
+  WorkExperience toWorkExperience(WorkExperienceRequest request);
+
+  List<ResumeSkill> toSkills(List<ResumeSkillRequest> requests);
+
+  List<Education> toEducations(List<EducationRequest> requests);
+
+  List<Project> toProjects(List<ProjectRequest> requests);
+
+  List<Language> toLanguages(List<LanguageRequest> requests);
+
+  List<WorkExperience> toWorkExperiences(List<WorkExperienceRequest> requests);
+
+  @InheritConfiguration(name = "toWorkExperience")
+  void updateWorkExperience(
+      @NonNull WorkExperienceRequest request, @MappingTarget @NonNull WorkExperience target);
+
+  @InheritConfiguration(name = "toSkill")
+  void updateSkill(@NonNull ResumeSkillRequest request, @MappingTarget @NonNull ResumeSkill target);
+
+  @InheritConfiguration(name = "toLanguage")
+  void updateLanguage(@NonNull LanguageRequest request, @MappingTarget @NonNull Language target);
+
+  @InheritConfiguration(name = "toProject")
+  void updateProject(@NonNull ProjectRequest request, @MappingTarget @NonNull Project target);
+
+  @InheritConfiguration(name = "toEducation")
+  void updateEducation(@NonNull EducationRequest request, @MappingTarget @NonNull Education target);
 }

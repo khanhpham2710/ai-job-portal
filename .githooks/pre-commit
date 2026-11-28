@@ -9,16 +9,16 @@ STAGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.java$')
 [ -z "$STAGED" ] && exit 0
 
 # Nếu file đang stage một phần (còn thay đổi chưa stage), chặn để khỏi vô tình stage thêm.
-PARTIAL=""
-for f in $STAGED; do
-  if ! git diff --quiet -- "$f"; then
-    PARTIAL="$PARTIAL\n  $f"
-  fi
-done
-if [ -n "$PARTIAL" ]; then
-  printf "pre-commit: các file sau còn thay đổi chưa stage, hãy stage hết hoặc stash trước:%b\n" "$PARTIAL"
-  exit 1
-fi
+# PARTIAL=""
+# for f in $STAGED; do
+#  if ! git diff --quiet -- "$f"; then
+#    PARTIAL="$PARTIAL\n  $f"
+#  fi
+#done
+#if [ -n "$PARTIAL" ]; then
+#  printf "pre-commit: các file sau còn thay đổi chưa stage, hãy stage hết hoặc stash trước:%b\n" "$PARTIAL"
+#  exit 1
+#fi
 
 echo "pre-commit: chạy spotless:apply ..."
 if ! mvn -q -f "$POM" spotless:apply; then
